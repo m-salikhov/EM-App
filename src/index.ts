@@ -31,7 +31,6 @@ async function start() {
 
   app.use('/users', userRoutes);
   app.use('/auth', authRoutes);
-
   app.use((req, res) => {
     res.status(404).json({ message: 'Маршрут не найден' });
   });

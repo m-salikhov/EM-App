@@ -2,8 +2,12 @@ import { Request, Response } from 'express';
 import * as bcrypt from 'bcrypt';
 import { findUserByEmail } from '../User/user.service';
 
-export const login = async (req: Request, res: Response) => {
+export const login = async (req: Request<{}, {}, { email: string; password: string }>, res: Response) => {
   const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ error: 'Не указаны логин или пароль' });
+  }
 
   try {
     const user = await findUserByEmail(email);
@@ -37,6 +41,6 @@ export const logout = (req: Request, res: Response) => {
       console.log(error);
       return res.status(500).json({ error: 'Ошибка при выходе' });
     }
-    res.json({ message: 'Выход успешно выполнен' });
+    res.json({ message: 'Выход из аккаунта' });
   });
 };

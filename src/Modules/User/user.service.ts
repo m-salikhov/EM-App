@@ -13,6 +13,8 @@ export const saveUser = async (createUserDto: CreateUserDto) => {
     throw new Error('Email уже зарегистрирован');
   }
 
+  // По умолчанию пользователь создаются как user и статусом isActive = true
+  // Админские права надо выдать пользователю вручную
   const user = new User();
   user.firstName = firstName;
   user.lastName = lastName;

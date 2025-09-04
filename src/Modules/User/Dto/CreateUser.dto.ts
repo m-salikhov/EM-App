@@ -1,4 +1,5 @@
-// types/user.types.ts или в том же файле
+// По умолчанию пользователь создаются как user и статусом isActive = true
+// Админские права надо выдать пользователю вручную
 export interface CreateUserDto {
   firstName: string;
   lastName: string;
