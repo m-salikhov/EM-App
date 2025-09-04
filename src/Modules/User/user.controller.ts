@@ -48,7 +48,7 @@ export const getUserById = async (req: Request, res: Response) => {
 
     if (error instanceof Error && error.message) {
       res.status(404).json({ message: error.message });
-    } else res.status(500).json({ message: 'Ошибка сервера при создании пользователя' });
+    } else res.status(500).json({ message: 'Ошибка сервера' });
   }
 };
 
@@ -93,7 +93,7 @@ export const changeUserActiveStatus = async (req: Request, res: Response) => {
 
       if (error instanceof Error && error.message) {
         res.status(404).json({ message: error.message });
-      } else res.status(500).json({ message: 'Ошибка сервера при создании пользователя' });
+      } else res.status(500).json({ message: 'Ошибка сервера при деактивации пользователя' });
     }
   }
 };
