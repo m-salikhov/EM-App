@@ -13,8 +13,9 @@ export const saveUser = async (createUserDto: CreateUserDto) => {
     throw new Error('Email уже зарегистрирован');
   }
 
-  // По умолчанию пользователь создаются как user и статусом isActive = true
+  // По умолчанию пользователь создаётся c ролью user и статусом isActive = true
   // Админские права надо выдать пользователю вручную
+  // Или создать пользователя с email = admin@admin.com - сделано просто для удобства, только для демо
   const user = new User();
   user.firstName = firstName;
   user.lastName = lastName;
@@ -22,6 +23,9 @@ export const saveUser = async (createUserDto: CreateUserDto) => {
   user.birthDate = new Date(birthDate);
   user.email = email;
   user.password = await bcrypt.hash(password, 10);
+  if (email === 'admin@admin.com') {
+    user.role = 'admin';
+  }
 
   return await userRepository.save(user);
 };
@@ -47,6 +51,7 @@ export const findUserById = async (id: number) => {
 };
 
 export const findAllUsers = async () => {
+  // Получаем всех пользователей без паролей
   return await userRepository.find({
     select: ['id', 'firstName', 'lastName', 'patronymic', 'birthDate', 'email', 'isActive', 'role'],
   });

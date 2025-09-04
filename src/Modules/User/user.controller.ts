@@ -2,19 +2,26 @@ import { Request, Response } from 'express';
 import { CreateUserDto } from './Dto/CreateUser.dto';
 import { findUserById, saveUser, updateIsActive, findAllUsers } from './user.service';
 
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 export const createUser = async (req: Request<{}, {}, CreateUserDto>, res: Response) => {
   try {
     const { firstName, lastName, birthDate, email, password } = req.body;
 
-    // Проверяем обязательные поля
+    // простая валидация
     if (!firstName || !lastName || !birthDate || !email || !password) {
       return res
         .status(400)
         .json({ message: 'Не все обязательные поля заполнены: firstName, lastName, birthDate, email, password' });
     }
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ message: 'Некорректный email' });
+    }
+    if (password.length < 4) {
+      return res.status(400).json({ message: 'Пароль должен содержать не менее 4 символов' });
+    }
 
+    // возвращаем пользователя без пароля
     const { password: _, ...savedUser } = await saveUser(req.body);
-
     res.status(201).json({ savedUser });
   } catch (error) {
     console.error(error);

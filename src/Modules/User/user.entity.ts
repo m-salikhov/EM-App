@@ -1,7 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-// По умолчанию пользователь создаётся как user и статусом isActive = true
-// Роль admin надо выдать в ручную
+// По умолчанию пользователь создаются как user и статусом isActive = true
+// Админские права надо выдать пользователю вручную
+// Или создать пользователя с email = admin@admin.com - сделано просто для удобства, только для демо
 export type UserRole = 'user' | 'admin';
 
 @Entity('users')
