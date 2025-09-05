@@ -68,6 +68,10 @@ export const changeUserActiveStatus = async (req: Request, res: Response) => {
   const targetId = parseInt(req.params.id);
   const userRole = req.session.userRole;
 
+  if (isNaN(targetId)) {
+    return res.status(400).json({ message: 'Id пользователя должен быть числом' });
+  }
+
   //user может только деактивировать свой аккаунт
   if (userRole === 'user') {
     try {
